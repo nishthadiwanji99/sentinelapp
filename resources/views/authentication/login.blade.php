@@ -1,6 +1,6 @@
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-<div class="container">
+@extends('layouts.master')
+
+@section('content')
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
             <div class="panel panel-primary">
@@ -8,7 +8,7 @@
                     <h3 class="panel-title"> Register </h3>
                 </div>
                 <div class="panel-body">
-                    <form action="/login" method="POST">
+                    <form action="/login" method="POST" data-action="{{--{{}}--}}" data-redirect-url="{{--{{}}--}}">
                         {{csrf_field()}}
                         <div class="form-group">
                             <div class="input-group">
@@ -30,4 +30,4 @@
             </div>
         </div>
     </div>
-</div>  
+@endsection

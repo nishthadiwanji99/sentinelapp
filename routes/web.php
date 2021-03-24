@@ -4,6 +4,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ManagerController;
+use App\Http\Controllers\ActivationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,10 +27,22 @@ Route::get('/', function () {
 
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('/register',[RegistrationController::class, 'register']);
+Route::group(['middleware' => 'visitors'], function(){
+    Route::get('/register',[RegistrationController::class, 'register']);
 
-Route::post('/register',[RegistrationController::class,'postRegister']);
+    Route::post('/register',[RegistrationController::class,'postRegister']);
+    
+    Route::get('/login', [LoginController::class,'login']);
+    
+    Route::post('/login',[LoginController::class,'postLogin']);
+});
 
-Route::get('/login', [LoginController::class,'login']);
 
-Route::post('/login',[LoginController::class,'postLogin']);
+
+Route::post('/logout',[LoginController::class,'logout']);
+
+Route::get('/earnings',[AdminController::class,'earnings'])->middleware('admin');
+
+Route::get('/tasks', [ManagerController::class,'tasks'])->middleware('manager');
+
+Route::get('/activate/{email}/{activationCode}', [ActivationController::class,'activate']);

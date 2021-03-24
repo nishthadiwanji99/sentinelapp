@@ -1,9 +1,24 @@
-<div class="navbar-header">
-    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-      <span class="sr-only">Toggle navigation</span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-    </button>
-    <a class="navbar-brand" href="#">Project name</a>
-  </div>
+<div class="header clearfix">
+  <nav>
+    <ul class="nav nav-pills pull-right">
+      @if(Sentinel::check())
+          <li role="presentation">
+            <form action="/logout" method="POST" id="logout-form">
+              {{csrf_field()}}
+              <a href="#" onclick="document.getElementById('logout-form').submit()">Logout</a>
+            </form>
+          </li>
+      @else
+          <li role="presentation"><a href="/login">Login</a></li>
+          <li role="presentation"><a href="/register">Register</a></li>
+      @endif
+    </ul>
+  </nav>
+  <h3 class="text-muted">
+    @if(Sentinel::check())
+        Hello, {{Sentinel::getUser()->first_name}}
+    @else
+        Authentication with sentinel
+    @endif
+  </h3>
+</div>
