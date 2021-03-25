@@ -7,6 +7,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ManagerController;
 use App\Http\Controllers\ActivationController;
+use App\Http\Controllers\ForgotPasswordController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,7 +28,7 @@ Route::get('/', function () {
 
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::group(['middleware' => 'visitors'], function(){
+// Route::group(['middleware' => 'visitors'], function(){
     Route::get('/register',[RegistrationController::class, 'register']);
 
     Route::post('/register',[RegistrationController::class,'postRegister']);
@@ -35,7 +36,14 @@ Route::group(['middleware' => 'visitors'], function(){
     Route::get('/login', [LoginController::class,'login']);
     
     Route::post('/login',[LoginController::class,'postLogin']);
-});
+
+    Route::get('/forgot-password', [ForgotPasswordController::class,'forgotPassword']);
+
+    Route::post('/forgot-password', [ForgotPasswordController::class,'postForgotPassword']);
+
+    Route::get('/reset/{email}/{resetCode}',[ForgotPasswordController::class, 'resetPassword']);
+
+    // });
 
 
 

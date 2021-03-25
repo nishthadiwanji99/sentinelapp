@@ -6,17 +6,32 @@ use Illuminate\Http\Request;
 use Sentinel;
 use Activation;
 use App\Models\User;
+use Mail;
 
 class RegistrationController extends Controller
 {
     public function register(){
         return view('authentication.register');
     }
-    public function postRegister(Request $request){
+    public function postRegister(Request $request)
+    {
         $user = Sentinel::register($request->all());
         $activation = Activation::create($user);
-        $role = Sentinel::findRoleBySlug('manager');
+        $role = Sentinel::findRoleBySlug('admin');
         $role->users()->attach($user);
-        return redirect('/');
+        $this->sendEmail($user, $activation->code);
+        return redirect('/login');
+    }
+
+    private function sendEmail($user, $code)
+    {
+        Mail::send('emails.activation', [
+            'user' => $user,
+            'code' => $code
+        ], function($message) use($user){
+            $message->to($user->email);
+            $message->subject("Hello $user->first_name, activate your account.");
+        });
+
     }
 }

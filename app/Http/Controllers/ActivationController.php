@@ -13,7 +13,7 @@ class ActivationController extends Controller
     {
         $user = User::whereEmail($email)->first();
         $sentinelUser=Sentinel::findById($user->id);
-        if(Activation::complete($sentinelser, $activationCode))
+        if(Activation::complete($sentinelUser, $activationCode))
         {
             return redirect('/login');
         } 
